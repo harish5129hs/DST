@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-signin-client_id" content="179148926648-jjjgm0p6m6661k1stqm70ue5roqud17g.apps.googleusercontent.com">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+      
+      <script type="text/javascript" src="js/jquery.js"></script>
+       <script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<title>project</title>
+    <style type="text/css">
+      
+      .facebookbtn{
+        width: 255px;
+        background: #3b5998;
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+    </style>	
+	
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script type="text/javascript">
+  
+   $(document).ready(function(){
+
+    $("#loading").hide();
+
+});
+
+   $("#loading").hide();
+
+ var scok=1;
+
+  function checksecure(){
+          document.getElementById("serror").innerHTML="";
+        document.getElementById("sok").innerHTML="";
+        var x=document.getElementById('scode').value;
+        $.post("checkcaptcha.php",{cap : x},
+        function(result){
+            //alert("aaaa"+result+"aaaaa");
+          
+              if(result=="no"){
+                
+            document.getElementById("serror").innerHTML="Incorrect security code .";
+            flag="n";
+              scok=1;
+                   
+           }
+           else{
+          flag="y";
+          scok=1;
+          document.getElementById("sok").innerHTML="Correct security code . ";
+          
+        }
+          
+
+          
+        });
+
+      }
+
+    var inv =0;
+      //user has login failed several times  seesion invalid set
+    $.post("invaliduser.php",{a:'h'},function(result){
+           if(result=='y'){
+          inv=1;
+          
+          scok=0;
+          document.getElementById("cap").innerHTML="";
+          document.getElementById("re").innerHTML="";
+          document.getElementById("passf").innerHTML="";
+          document.getElementById("passf").innerHTML="Invalid login attempts several times.<br> Please enter security code ";
+          
+        
+         var ht= "<h5>Security code</h5><div class='row'><div id='imgcap' class='col-md-5'> <img src='captcha.php' class='captcha'></div><div class='col-md-7'><br> <a class='crefresh' onclick='refreshfun();'> <span class='glyphicon glyphicon-refresh'></span>Refresh security code</a></div> <br> </div><input type='text' class='form-control' placeholder='Type security code' required name='scode' onkeyup='checksecure()' id='scode'>"; 
+         document.getElementById("cap").innerHTML=ht;              
+        }
+          });
+    
+
+	var m = 0;
+	function post1(){
+    //alert("hello");
+        
+        $("#loading").fadeIn();
+
+        document.getElementById("serror").innerHTML="";
+        document.getElementById("sok").innerHTML="";
+         document.getElementById("re").innerHTML="";
+        var txt=document.getElementById('username').value;
+        var txt1=document.getElementById('password').value;
+        var x = document.getElementById("rememberme").checked;
+         $("#emptyusr").html("");
+          $("#emptypass").html("");
+        if(x){
+        	var txt2='yes';
+        }
+        else{
+        	var txt2='';
+        }
+       // alert("h");
+       if(txt==''){
+        $("#emptyusr").html("Please enter username");
+        $('#username').addClass('redinput');
+       }
+       else{
+
+          if(txt1==''){
+             $("#emptypass").html("Please enter password");
+              $('#password').addClass('redinput');
+          }else{
+              $.post("loginbackend.php", {username:txt,password:txt1,rem:txt2}, function(result){
+                    if(scok==1){
+                    if(result==" n"){
+                      m=m+1;
+                    $("#re").html("Incorrect  Password");
+                    }
+                    if(result==" nr"){
+                      m=m+1;
+                    $("#re").html("Email not registered");
+                    }
+                    if(result==" y"){
+                    window.location="afterlogin.php";
+                    }
+                     if(result==" not"){
+                    $("#re").html("Please activate your account");
+                    }
+                    
+
+                  
+
+              if((m>=5||inv==1)){
+                 
+                
+                scok=0;
+                document.getElementById("cap").innerHTML="";
+                
+                document.getElementById("passf").innerHTML="";
+                document.getElementById("passf").innerHTML="Invalid login attempts several times.<br> Please enter security code ";
+                
+                //set invalid user
+                $.post("invaliduser.php",{},function(result){
+                  
+                });
+              
+               var ht= "<h5>Security code</h5><div class='row'><div id='imgcap' class='col-md-5'> <img src='captcha.php' class='captcha'></div><div class='col-md-7'><br> <a class='crefresh' onclick='refreshfun();'> <span class='glyphicon glyphicon-refresh'></span>Refresh security code</a></div> <br> </div><input type='text' class='form-control' placeholder='Type security code' required name='scode' onkeyup='checksecure()' id='scode'>"; 
+               document.getElementById("cap").innerHTML=ht;              
+              }
+
+                    }
+                  
+
+                    
+              });
+
+        }
+      }
+       
+         $("#loading").fadeOut(); 
+
+    }
+
+
+
+  
+    function refreshfun(){
+        document.getElementById("serror").innerHTML="";
+        document.getElementById("sok").innerHTML="";
+        document.getElementById("imgcap").innerHTML="";
+        document.getElementById("imgcap").innerHTML +="<img src='captcha.php' class='captcha'>";
+      }
+
+   
+  </script>
+
+  <style type="text/css">
+
+
+#loading {
+  position: absolute;
+  top: 300px;
+  left: 300px;
+  z-index: 100;
+ 
+}
+  </style>
+	</head>
+	
+	<body>
+    <div id="alldata">		
+
+	<div id="options">
+  <nav class="navbar navbar-inverse navbar-fixed-top options ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">DST</a>
+    </div>
+   <ul class="nav navbar-nav">
+      <li class="active"><a href="search.php">Home</a></li>
+      <li><a href="search.php">Search</a></li>
+      <li><a href="#">About</a></li> 
+      <li><a href="#">Help</a></li>
+      <li><a href="forum/forum_home.php">forum </a></li> 
+    </ul>
+   
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+   
+  </div>
+</nav>
+</div>  <br><br>  
+
+    <div id="header">
+      <br>
+      <div class="row">
+      <div class="col-sm-4 col-xs-0">
+      <div class="row">
+      <div class ="col-md-1"></div>
+      <div class="col-md-11"><img src="images/dstlogo.png" ></div>
+      
+      </div>
+      </div>
+           
+      <div class="col-sm-5  col-xs-12 text-center"><img src ="images/flag3.png" height="75" width"75"><br><h2 class="stroke"> Indian Origin Academicians Database</h2></div>
+      <div class="col-sm-3 col-xs-0 ">
+
+             <div class="row">
+             <div class="col-md-3"></div>
+      <div class="col-md-9">
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="images/pec-logo.png">
+     <strong> <h4 class="whitebg">PEC University Of Technology</h4></strong>
+      </div>
+      </div>
+      
+      </div>
+      
+      </div>
+                            
+      
+    </div>
+		
+
+
+
+    <br>
+                <br>
+		<div id="wrapper">
+		
+			  
+            <img id="loading" src="images/load1.gif" alt="Loading..." />   
+         
+				<div class="row">
+				<div class="col-xs-2"></div>
+				<div class="col-xs-8 ">
+				
+                    <h3 class="nomargin nopadding"><span class="glyphicon glyphicon-log-in"></span> Log In</h3>
+					<hr class="nomargin nopadding">
+					<br>
+                        <form name="form">
+                      
+                            
+                         
+                            <div class="row">
+                            <div class="col-sm-5">
+                            <br><br>
+                            
+                              <div class = "input-group ">
+                               <span class = "input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                      						<input type="text" class="form-control" id="username" placeholder="Type registered email">
+                               </div>
+                               <div id="emptyusr" class="error"></div>
+                            
+                            <br>
+                            
+                           <br>
+                           <div class = "input-group">
+                              <span class = "input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                             <input type="password" class="form-control" id="password" placeholder="Type password">
+                            
+                            </div>
+                            <div id="emptypass" class="error"></div>
+
+                            <div id='re' class="error"><br></div>
+                            <br>
+                            <div id="passf" class="error" ></div>
+                            
+                            <div id="cap"></div> 
+                            
+
+                             <div id="serror" class="error">   </div>
+                              <div id="sok" class="ok">   </div>
+
+
+                              
+                            <div class='checkbox'><label><input type="checkbox"  id="rememberme"  >Remember me?
+                            </label></div>
+
+                          
+                            
+                            <div class="text-center">
+                            
+					           
+                           
+                            <input type="button" class="btn btn-info full" value="Login" name="login" onclick="post1()"/>
+                            <br><br>
+                            
+
+                            <a href="fp.html" class="linkfp">Forgot Password</a>
+
+                            
+                            </div>
+
+                        </form>
+                </div>
+                <div class="col-sm-1"></div>
+                 <div class="col-sm-6 text-center">
+                    <h5>Or you can Sign In with </h5>
+                    <br>
+                    <div class="text-center">
+                      
+                      <button class="g-signin2 nopadding " data-onsuccess="onSignIn" data-theme="dark" data-longtitle="true" data-width="250" ></button>
+                      
+
+                      <script>
+                        function onSignIn(googleUser) {
+                          // Useful data for your client-side scripts:
+                          var profile = googleUser.getBasicProfile();
+                          console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                          console.log('Full Name: ' + profile.getName());
+                          console.log('Given Name: ' + profile.getGivenName());
+                          console.log('Family Name: ' + profile.getFamilyName());
+                          console.log("Image URL: " + profile.getImageUrl());
+                          console.log("Email: " + profile.getEmail());
+
+
+
+                          // The ID token you need to pass to your backend:
+                          var id_token = googleUser.getAuthResponse().id_token;
+                          console.log("ID Token: " + id_token);
+
+                          parseidtoken(id_token);
+                        };
+
+
+                        //copied method for CORS request
+                        function createCORSRequest(method, url) {
+                          var xhr = new XMLHttpRequest();
+                          if ("withCredentials" in xhr) {
+                            // XHR for Chrome/Firefox/Opera/Safari.
+                            xhr.open(method, url, true);
+                          } else if (typeof XDomainRequest != "undefined") {
+                            // XDomainRequest for IE.
+                            xhr = new XDomainRequest();
+                            xhr.open(method, url);
+                          } else {
+                            // CORS not supported.
+                            xhr = null;
+                          }
+                          return xhr;
+                        }
+
+
+                        function parseidtoken(id_token){
+                          var urls  = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token="+id_token;
+                          var xhr = createCORSRequest('GET', urls);
+                          if (!xhr) {
+                            alert('CORS not supported');
+                            return;
+                          }
+
+                          // Response handlers.
+                          xhr.onload = function() {
+                            var text = xhr.responseText;
+                            parsereply(text);
+                          };
+
+                          xhr.onerror = function() {
+                            alert('Woops, there was an error making the request.');
+                          };
+
+                          xhr.send();
+                          
+                        }
+
+                        function parsereply(text){
+                          var profile = JSON.parse(text);
+                          var clientid = '179148926648-jjjgm0p6m6661k1stqm70ue5roqud17g.apps.googleusercontent.com';
+
+                          if(clientid!=profile.aud){
+                            alert("Unable to verify your account");
+                            var auth2 = gapi.auth2.getAuthInstance();
+                            auth2.signOut().then(function () {
+                            console.log('User signed out.');
+                          });
+                          }
+                          else{
+                            var email = profile.email;
+                            var firstname = profile.given_name;
+                            var lastname = profile.family_name;
+                            var gooleid = profile.sub;
+                            var alg = profile.alg;
+
+                            var gurl = 'googleverify.php?email='+email+'&alg='+alg+'&firstname='+firstname+'&lastname='+lastname+'&googleid='+gooleid;
+                            console.log(gurl);
+                            $.ajax({
+                              url:gurl,
+                              // dataType='json',
+                              success: function(data){
+                                console.log(data);
+                                data= JSON.parse(data);
+                                console.log(data);
+                                if(data.success==1){
+                                  window.location = "afterlogin.php";
+
+                                }
+                                else{
+                                  alert("Unable to login ");
+                                }
+                              }
+                            });
+
+
+                          }
+                        }
+                      </script>
+
+
+
+
+
+
+
+
+
+
+
+                      <!-- login with google ends -->
+
+
+
+
+
+
+
+
+
+
+
+
+                      <script>
+                          // This is called with the results from from FB.getLoginStatus().
+                          function statusChangeCallback(response) {
+                            console.log('statusChangeCallback');
+                            console.log(response);
+                            // The response object is returned with a status field that lets the
+                            // app know the current login status of the person.
+                            // Full docs on the response object can be found in the documentation
+                            // for FB.getLoginStatus().
+                            if (response.status === 'connected') {
+                              // Logged into your app and Facebook.
+                              getInfo();
+                            } else if (response.status === 'not_authorized') {
+                              // The person is logged into Facebook, but not your app.
+                             // document.getElementById('status').innerHTML = 'Please log ' +
+                                'into this app.';
+                            } else {
+                              // The person is not logged into Facebook, so we're not sure if
+                              // they are logged into this app or not.
+                              //document.getElementById('status').innerHTML = 'Please log ' +
+                                'into Facebook.';
+                            }
+                          }
+
+                          // This function is called when someone finishes with the Login
+                          // Button.  See the onlogin handler attached to it in the sample
+                          // code below.
+                          function checkLoginState() {
+                            FB.getLoginStatus(function(response) {
+                              statusChangeCallback(response);
+                            });
+                          }
+
+                          window.fbAsyncInit = function() {
+                          FB.init({
+                            appId      : '261392510921227',
+                            cookie     : true,  // enable cookies to allow the server to access 
+                                                // the session
+                            xfbml      : true,  // parse social plugins on this page
+                            version    : 'v2.5' // use graph api version 2.5
+                          });
+
+                          // Now that we've initialized the JavaScript SDK, we call 
+                          // FB.getLoginStatus().  This function gets the state of the
+                          // person visiting this page and can return one of three states to
+                          // the callback you provide.  They can be:
+                          //
+                          // 1. Logged into your app ('connected')
+                          // 2. Logged into Facebook, but not your app ('not_authorized')
+                          // 3. Not logged into Facebook and can't tell if they are logged into
+                          //    your app or not.
+                          //
+                          // These three cases are handled in the callback function.
+
+                          FB.getLoginStatus(function(response) {
+                            statusChangeCallback(response);
+                          });
+
+                          };
+
+                          // Load the SDK asynchronously
+                          (function(d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s); js.id = id;
+                            js.src = "//connect.facebook.net/en_US/sdk.js";
+                            fjs.parentNode.insertBefore(js, fjs);
+                          }(document, 'script', 'facebook-jssdk'));
+
+                          
+                          function getInfo() {
+                              console.log('Welcome!  Fetching your information.... ');
+                              FB.api('/me',{fields:'first_name,last_name,email,name'}, function(response) {
+                              console.log(response);
+                              console.log(response.name);
+                              console.log(response.email);
+                              console.log('Successful login for: ' + response.name);
+                              facebookreplyparse(response);
+                            });
+                          }
+
+                          function facebookreplyparse(profile){
+                            var email = profile.email;
+                            var firstname = profile.first_name;
+                            var lastname = profile.last_name;
+                            var fbid = profile.id;
+                            
+
+                            var gurl = 'facebookverify.php?email='+email+'&firstname='+firstname+'&lastname='+lastname+'&fbid='+fbid;
+                            console.log(gurl);
+                            $.ajax({
+                              url:gurl,
+                              // dataType='json',
+                              success: function(data){
+                                console.log(data);
+                                data= JSON.parse(data);
+                                console.log(data);
+                                if(data.success==1){
+                                  window.location = "afterlogin.php";
+
+                                }
+                                else{
+                                  alert("Unable to login ");
+                                }
+                              }
+                            });
+                          }
+                        </script>
+                        <br><br>
+                        <div class="text-center ">
+                        <button class="nopadding facebookbtn">
+                          <fb:login-button size="large" scope="email" onlogin="checkLoginState();" auto_logout_link="false">
+                          Sign in with Facebook
+                          </fb:login-button>
+
+                          </button>
+                          
+                        </div>
+
+
+                   </div>   
+                 </div>
+                 </div>
+                
+                <div class="col-xs-2"></div>     
+					
+				</div>
+			
+			
+		
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+		<footer id="footer" class="nomargin">
+    <nav class="navbar navbar-inverse nomargin nor">
+  <div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <ul class="nav navbar-nav" style="text:align:center;">
+      <li><a href="#">Web Policies</a></li>
+      <li><a href="#">Contact Us</a></li> 
+      <li><a href="#">Feedback</a></li>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Disclamier</a></li>
+      <li><a  class="scroll-Top pointer">Top <span class="glyphicon glyphicon-arrow-up"></span></a></li>
+    </ul>
+    </div>
+    <div class="col-sm-3"></div>
+   </div> 
+  </div>
+</nav>
+      <div class="footer">
+			<div class="row">
+        <div class="col-sm-3 ">
+        <div class="footer-images text-center">
+        <a href="#">
+          <img src="images/pecfootlogo.png"  height="60" width="150">
+          </a>
+          <br><br>
+          <a href="#">
+          <img src="images/dstfoot.jpg" class="img-rounded dstfootlogo"   height="60" width="200">
+          </a>
+           
+        </div>
+        </div>
+
+        <div class="col-sm-9">
+          <h3 class="nomargin">Contact Us</h3>
+          <hr class="nomargin bluebg" >
+
+          <div class="row">
+            <div class="col-sm-3">
+              <h5>The Director <br>
+              PEC University Of Technology<br>
+              Sector-12 , Chandigarh<br>
+              Phone:
+
+              </h5>
+
+            </div>
+            
+          </div>
+        </div>
+        </div>
+		</footer>
+	</div>
+	</body>
+</html>

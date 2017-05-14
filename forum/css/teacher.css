@@ -1,0 +1,217 @@
+#inner{
+       margin-left: 100px;
+	   }
+
+	   
+		
+			body {
+				margin:0;
+				padding:0;
+				font-family: Sans-Serif;
+				line-height: 1.5em;
+				background: white;
+				background-size: cover;
+				
+
+
+               
+			}
+
+			.error{
+				color: red;
+				
+			}
+			#header {
+				background: url("../images/hb4.png") ;
+				background-size: ;
+				color: black;
+				border-bottom: solid 1px grey; 
+				width: 100%;
+				zoom: 80%;
+				
+			}
+			.options{
+				zoom: 90%;
+				
+				
+			}
+            #alldata {
+				margin:0px;
+				padding:0;
+				font-family: Sans-Serif;
+				line-height: 1.5em;
+				
+
+			}
+
+			#head{
+		        font-size: 150%;
+          	}
+			#show1{
+				color: red;
+				font-family: Sans-Serif;
+			}
+
+			.full{
+				width: 50%;
+			}
+
+			.fp{
+				color: grey;
+			}
+			
+			.greybar{
+				background: #5f5f5f;
+			}
+
+			#header {
+				background: white;
+				color: black;
+				border-bottom: solid 1px grey; 
+				width: 100%;
+			}
+
+			.nomargin{
+				margin: 0px;
+			}
+
+			.nopadding{
+				padding: 0px;
+			}
+			
+			#header h1 {
+				margin: 0;
+				padding-top: 15px;
+			}
+			.outer{
+				width: 100%;
+				
+			}
+
+			.rshift{
+				position: relative;
+				left: 20px;
+			}
+			.outer1{
+				margin: 30px;
+				
+				background: white;
+				
+			}
+			.outer2{
+				margin: 20px;
+				
+				background: white;
+				
+			}
+
+			.textright{
+				text-align: right;
+				color: white;
+				float: right;
+			}
+
+			.innerfilter{
+                  overflow-y:scroll;
+                  height: 200px;
+                  padding-left: 10px;
+                  color: #999;
+				    
+				    cursor: pointer;
+				    font-size: 15px;
+				    line-height: 20px; 
+			}
+
+			
+
+			.list{
+				padding: 2px;
+				margin: 0px;
+			}
+
+			
+
+			.filterbox{
+				padding: 0px;
+                width: 100%;
+			}
+			
+			#main {
+				padding-bottom: 10010px;
+				margin-bottom: -10000px;
+				float: left;
+				width: 100%;
+			}
+			
+			#nav {
+				padding-bottom: 10010px;
+				margin-bottom: -10000px;
+				float: left;
+				width: 400px;
+				margin-left: -100%;
+				
+			}
+			
+			#footer {
+				clear: left;
+				width: 100%;
+				background: #ccc;
+				text-align: center;
+				padding: 4px 0;
+			}
+			#search {
+				
+				width: 100%;
+				margin:0;
+				padding: 0px;
+				padding-top: 10px;
+				
+				
+			}
+			.sell{
+				background: grey;
+				color: white;
+			}
+
+			.whitelink li a {
+				color: white;
+			}
+
+			#wrapper {
+				overflow: hidden;
+
+				
+			}
+
+
+
+			.s{
+				padding: 0px;
+				min-height: 0px;
+				margin: 0px;
+			}
+						
+			#content {
+				margin-left: 400px; /* Same as 'nav' width */
+			}
+			
+			.innertube {
+				margin: 15px; /* Padding for content */
+				margin-top: 0;
+			}
+		
+			p {
+				color: #555;
+			}
+	
+			nav ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			
+			nav ul a {
+				color: darkgreen;
+				text-decoration: none;
+			}
+	

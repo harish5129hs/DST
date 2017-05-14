@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		 <script type="text/javascript" src="js/jquery.js"></script>
+	     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<title>project</title>	
+
+		<script type="text/javascript">
+
+		    var flag= "y";
+        var ef="y";
+
+			function emailcheckfun(){
+				document.getElementById("eco").innerHTML="";
+				var x=document.getElementById('ed').value;
+                //alert(x);
+				$.post("echeck.php",{email : x},
+     		function(result){
+     			    if(result==" yes"){
+     			    	
+ 				    document.getElementById("eco").innerHTML="Email already registered , provide another email . ";
+ 				    flag="n";
+                   
+ 				   }else{
+            
+        $.post("check_email.php",{email : x},
+        function(result){
+          var c=result;
+            if(c==0){
+            document.getElementById("eco").innerHTML="Email Address is not valid";
+            ef="n";
+            }else{
+            ef='y';
+           }
+          
+
+          
+        });
+  
+           }
+     			
+
+     			
+     		});
+      
+
+			}
+      
+
+
+			function checkfun(){
+				document.getElementById("passerror").innerHTML="";
+				document.getElementById("passok").innerHTML="";
+				var x=document.getElementById('pass').value;
+				var y=document.getElementById('pass2').value;
+
+				if(x!=y){
+					document.getElementById("passerror").innerHTML="Password doesn't match. ";
+					flag="n";
+				}
+				else{
+					flag="y";
+					document.getElementById("passok").innerHTML="Password  match. ";
+					
+				}
+			}
+
+
+			function checksecure(){
+          document.getElementById("serror").innerHTML="";
+        document.getElementById("sok").innerHTML="";
+				var x=document.getElementById('scode').value;
+				$.post("checkcaptcha.php",{cap : x},
+     		function(result){
+     				//alert("aaaa"+result+"aaaaa");
+     			
+     			    if(result=="no"){
+     			    	
+ 				    document.getElementById("serror").innerHTML="Incorrect security code .";
+ 				    flag="n";
+                   
+ 				   }
+ 				   else{
+					flag="y";
+					document.getElementById("sok").innerHTML="Correct security code . ";
+					
+				}
+     			
+
+     			
+     		});
+
+			}
+
+
+			function submitcheckfun(){
+
+				//alert(flag);
+				if(flag=="n"||ef=="n"){
+					return false;
+				}
+
+			}
+
+
+			function refreshfun(){
+        document.getElementById("serror").innerHTML="";
+        document.getElementById("sok").innerHTML="";
+				document.getElementById("imgcap").innerHTML="";
+				document.getElementById("imgcap").innerHTML +="<img src='captcha.php' class='captcha'>";
+			}
+
+		</script>
+	
+	</head>
+	
+	<body>
+    <div id="alldata">		
+
+	<div id="options">
+	<nav class="navbar navbar-default navbar-fixed-top options ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">DST</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="search.php">Home</a></li>
+      <li><a href="search.php">Search</a></li>
+      <li><a href="#">About</a></li> 
+      <li><a href="#">Help</a></li>
+      <li><a href="forum/forum_home.php">forum </a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+</div>	<br><br>	
+
+		<div id="header">
+      <br>
+      <div class="row">
+      <div class="col-md-4">
+      <div class="row">
+      <div class ="col-md-1"></div>
+      <div class="col-md-11"><img src="images/dstlogo.png"></div>
+      
+      </div>
+      </div>
+           
+      <div class="col-md-5 text-center"><img src ="images/flag3.png" height="75" width"75"><br><h2 class=""> Indian Origin Academicians Database</h2></div>
+      <div class="col-md-3">
+
+             <div class="row">
+             <div class="col-md-3"></div>
+      <div class="col-md-9">
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="images/pec-logo.png">
+     <strong> <h4 class="whitebg">PEC University Of Technology</h4></strong>
+      </div>
+      </div>
+      
+      </div>
+      
+      </div>
+                            
+      
+    </div>
+		<br>
+                <br>
+		<div id="wrapper">
+		
+			
+				<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+                    <h3 class="nomargin nopadding"><span class="glyphicon glyphicon-user"></span> Sign Up</H3>
+					<hr class="nomargin nopadding">
+						<br><br>
+                        <form action="signupbackend.php" method="post" onsubmit="return submitcheckfun();">
+                      
+                            
+                         <h5>First Name</h5>
+                            <div class="row">
+                            <div class="col-xs-5">
+						<input type="text" class="form-control"  placeholder="Type First Name" required name="First_name">
+                            </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <h5>Last Name</h5>
+                            <input type="text" class="form-control" placeholder="Type Last Name" required name="Last_name">
+                            </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <h5>Email Address</h5>
+                    <input type="text" class="form-control" placeholder="Type email-id" required id="ed" name="Email_id" onblur="emailcheckfun();"  >
+                            </div>
+                            </div>
+                            <div id="eco" class="error">   </div>
+                              
+                            <br>
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <h5>Password</h5>
+                            <input type="password" class="form-control" placeholder="Type password" required name="pass" id="pass">
+                            </div>
+                            </div>
+                              
+                            <br>
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <h5>Confirm Password</h5>
+                            <input type="password" class="form-control" placeholder="Confirm Password" required name="pass2" onkeyup="
+                            checkfun()" id="pass2">
+                            </div>
+                            </div>
+                               <div id="passerror" class="error">   </div>
+                               <div id="passok" class="ok">   </div>
+                              
+                            <br>
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <h5>Security code</h5>
+                            <div class="row">
+                            <div id="imgcap" class="col-md-5"> <img src="captcha.php" class="captcha"></div>
+                            <div class="col-md-7"><br> <a class="crefresh" onclick="refreshfun();"> <span class="glyphicon glyphicon-refresh"></span>Refresh security code</a></div>
+                            <br>
+                            </div>
+                            
+
+
+                            <input type="text" class="form-control" placeholder="Type security code" required name="scode" onblur="
+                            checksecure()" id="scode">
+                            </div>
+                            </div>
+                            <div id="serror" class="error">   </div>
+                               <div id="sok" class="ok">   </div>
+                          
+                          
+                            <div class="row">
+                            <div class="col-xs-5">
+                            <div class="text-center">
+                            
+					            
+                            <br>
+                            <input type="submit" class="btn btn-info"  value="Sign Up">
+                            
+                            </div>
+                            </div>
+                            </div>
+                        </form>
+                 </div>
+                
+                <div class="col-md-2"></div>     
+					
+				</div>
+			
+			
+		
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+		<footer id="footer" class="nomargin">
+    <nav class="navbar navbar-inverse nomargin nor">
+  <div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <ul class="nav navbar-nav" style="text:align:center;">
+      <li><a href="#">Web Policies</a></li>
+      <li><a href="#">Contact Us</a></li> 
+      <li><a href="#">Feedback</a></li>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Disclamier</a></li>
+      <li><a  class="scroll-Top pointer">Top <span class="glyphicon glyphicon-arrow-up"></span></a></li>
+    </ul>
+    </div>
+    <div class="col-sm-3"></div>
+   </div> 
+  </div>
+</nav>
+      <div class="footer">
+			<div class="row">
+        <div class="col-sm-3 ">
+        <div class="footer-images text-center">
+        <a href="#">
+          <img src="images/pecfootlogo.png"  height="60" width="150">
+          </a>
+          <br><br>
+          <a href="#">
+          <img src="images/dstfoot.jpg" class="img-rounded dstfootlogo"   height="60" width="200">
+          </a>
+           
+        </div>
+        </div>
+
+        <div class="col-sm-9">
+          <h3 class="nomargin">Contact Us</h3>
+          <hr class="nomargin bluebg" >
+
+          <div class="row">
+            <div class="col-sm-3">
+              <h5>The Director <br>
+              PEC University Of Technology<br>
+              Sector-12 , Chandigarh<br>
+              Phone:
+
+              </h5>
+
+            </div>
+            
+          </div>
+        </div>
+        </div>
+		</footer>
+	</div>
+	</body>
+</html>
